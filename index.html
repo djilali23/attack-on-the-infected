@@ -1,0 +1,1623 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Attack on the Infected — الحلقات</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet"/>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --blue: #1a6cf5;
+      --dark-blue: #0d3a8a;
+      --light-blue: #4d8eff;
+      --black: #0a0a0f;
+      --dark: #0e0e1a;
+      --card: #12121f;
+      --border: #1e1e35;
+      --text: #e8e8f0;
+      --muted: #7070a0;
+    }
+
+    body {
+      background: var(--black);
+      color: var(--text);
+      font-family: 'Cairo', sans-serif;
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    /* NAVBAR */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      background: rgba(10,10,15,0.95);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border);
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .nav-logo {
+      font-size: 1.1rem;
+      font-weight: 900;
+      color: var(--light-blue);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 1.5rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.9rem;
+      transition: color 0.3s;
+    }
+
+    .nav-links a:hover { color: var(--light-blue); }
+
+    /* HERO */
+    .hero {
+      min-height: 45vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 8rem 2rem 4rem;
+      position: relative;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: radial-gradient(ellipse at 50% 0%, rgba(26,108,245,0.15) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .hero-tag {
+      font-size: 0.8rem;
+      color: var(--light-blue);
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+      border: 1px solid var(--dark-blue);
+      padding: 0.4rem 1.2rem;
+      border-radius: 2rem;
+      display: inline-block;
+    }
+
+    .hero h1 {
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      font-weight: 900;
+      color: #fff;
+      margin-bottom: 0.5rem;
+    }
+
+    .hero h1 span { color: var(--light-blue); }
+
+    .hero p {
+      color: var(--muted);
+      font-size: 1rem;
+      max-width: 500px;
+    }
+
+    /* STATS */
+    .stats {
+      display: flex;
+      justify-content: center;
+      gap: 3rem;
+      flex-wrap: wrap;
+      padding: 2rem;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      background: var(--dark);
+    }
+
+    .stat-item { text-align: center; }
+
+    .stat-item .num {
+      font-size: 2rem;
+      font-weight: 900;
+      color: var(--light-blue);
+      display: block;
+    }
+
+    .stat-item .lbl {
+      font-size: 0.85rem;
+      color: var(--muted);
+    }
+
+    /* FILTER */
+    .filter-section {
+      max-width: 1100px;
+      margin: 2.5rem auto 1rem;
+      padding: 0 2rem;
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .filter-title {
+      font-size: 1.3rem;
+      font-weight: 900;
+      color: #fff;
+    }
+
+    .filter-buttons {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    .filter-btn {
+      padding: 0.4rem 1.2rem;
+      border-radius: 2rem;
+      border: 1px solid var(--border);
+      background: transparent;
+      color: var(--muted);
+      font-family: 'Cairo', sans-serif;
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .filter-btn.active,
+    .filter-btn:hover {
+      background: var(--blue);
+      color: #fff;
+      border-color: var(--blue);
+    }
+
+    /* EPISODES GRID */
+    .episodes-grid {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 1rem 2rem 6rem;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1.5rem;
+    }
+
+    /* EPISODE CARD */
+    .episode-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 1rem;
+      overflow: hidden;
+      transition: all 0.3s;
+      text-decoration: none;
+      display: block;
+      color: var(--text);
+    }
+
+    .episode-card:hover {
+      border-color: var(--blue);
+      transform: translateY(-5px);
+      box-shadow: 0 15px 40px rgba(26,108,245,0.15);
+    }
+
+    .card-header {
+      background: linear-gradient(135deg, var(--dark-blue), #080818);
+      padding: 1.8rem 1.5rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card-header::before {
+      content: '';
+      position: absolute;
+      top: -50%; right: -30%;
+      width: 80%; height: 200%;
+      background: radial-gradient(circle, rgba(26,108,245,0.25) 0%, transparent 70%);
+    }
+
+    .card-arc {
+      position: absolute;
+      top: 1rem;
+      left: 1rem;
+      font-size: 0.7rem;
+      padding: 0.2rem 0.7rem;
+      border-radius: 1rem;
+      background: rgba(26,108,245,0.25);
+      color: var(--light-blue);
+      border: 1px solid rgba(26,108,245,0.4);
+    }
+
+    .card-num {
+      font-size: 0.75rem;
+      color: var(--light-blue);
+      letter-spacing: 2px;
+      margin-bottom: 0.5rem;
+      display: block;
+      position: relative;
+    }
+
+    .card-title {
+      font-size: 1.3rem;
+      font-weight: 900;
+      color: #fff;
+      position: relative;
+    }
+
+    .card-body {
+      padding: 1.5rem;
+    }
+
+    .card-summary {
+      color: var(--muted);
+      font-size: 0.9rem;
+      line-height: 1.7;
+      margin-bottom: 1.2rem;
+    }
+
+    .card-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      margin-bottom: 1.2rem;
+    }
+
+    .tag {
+      font-size: 0.72rem;
+      padding: 0.2rem 0.7rem;
+      border-radius: 1rem;
+      background: rgba(26,108,245,0.08);
+      color: var(--light-blue);
+      border: 1px solid var(--border);
+    }
+
+    .card-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 1rem;
+      border-top: 1px solid var(--border);
+    }
+
+    .status {
+      font-size: 0.78rem;
+      padding: 0.25rem 0.8rem;
+      border-radius: 1rem;
+    }
+
+    .status-done {
+      background: rgba(26,245,100,0.1);
+      color: #26f564;
+      border: 1px solid rgba(26,245,100,0.3);
+    }
+
+    .status-progress {
+      background: rgba(245,180,26,0.1);
+      color: #f5b41a;
+      border: 1px solid rgba(245,180,26,0.3);
+    }
+
+    .status-pending {
+      background: rgba(112,112,160,0.1);
+      color: var(--muted);
+      border: 1px solid var(--border);
+    }
+
+    .read-btn {
+      font-size: 0.85rem;
+      color: var(--light-blue);
+      font-weight: 700;
+      transition: color 0.3s;
+    }
+
+    .read-btn:hover { color: #fff; }
+
+    /* EPISODE PAGE */
+    .episode-page {
+      display: none;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 7rem 2rem 6rem;
+    }
+
+    .episode-page.active { display: block; }
+
+    .back-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: var(--light-blue);
+      font-size: 0.9rem;
+      font-weight: 700;
+      cursor: pointer;
+      margin-bottom: 2rem;
+      background: none;
+      border: none;
+      font-family: 'Cairo', sans-serif;
+      transition: color 0.3s;
+    }
+
+    .back-btn:hover { color: #fff; }
+
+    .ep-hero {
+      background: linear-gradient(135deg, var(--dark-blue), #080818);
+      border: 1px solid var(--border);
+      border-radius: 1rem;
+      padding: 2.5rem;
+      margin-bottom: 2rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .ep-hero::before {
+      content: '';
+      position: absolute;
+      top: -50%; right: -20%;
+      width: 60%; height: 200%;
+      background: radial-gradient(circle, rgba(26,108,245,0.2) 0%, transparent 70%);
+    }
+
+    .ep-arc-badge {
+      font-size: 0.75rem;
+      padding: 0.3rem 0.9rem;
+      border-radius: 1rem;
+      background: rgba(26,108,245,0.2);
+      color: var(--light-blue);
+      border: 1px solid rgba(26,108,245,0.4);
+      display: inline-block;
+      margin-bottom: 1rem;
+      position: relative;
+    }
+
+    .ep-num {
+      font-size: 0.85rem;
+      color: var(--muted);
+      margin-bottom: 0.5rem;
+      display: block;
+      position: relative;
+    }
+
+    .ep-title {
+      font-size: clamp(1.5rem, 4vw, 2.2rem);
+      font-weight: 900;
+      color: #fff;
+      margin-bottom: 1rem;
+      position: relative;
+    }
+
+    .ep-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      position: relative;
+    }
+
+    /* SCENE */
+    .scene {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 1rem;
+      margin-bottom: 1.5rem;
+      overflow: hidden;
+    }
+
+    .scene-header {
+      background: rgba(26,108,245,0.08);
+      border-bottom: 1px solid var(--border);
+      padding: 1rem 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .scene-num {
+      font-size: 0.75rem;
+      color: var(--light-blue);
+      letter-spacing: 2px;
+      font-weight: 700;
+    }
+
+    .scene-title {
+      font-size: 1rem;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    .scene-body {
+      padding: 1.5rem;
+    }
+
+    .scene-location {
+      font-size: 0.8rem;
+      color: var(--light-blue);
+      background: rgba(26,108,245,0.08);
+      border: 1px solid var(--border);
+      border-radius: 0.4rem;
+      padding: 0.3rem 0.8rem;
+      display: inline-block;
+      margin-bottom: 1rem;
+    }
+
+    .scene-desc {
+      color: var(--muted);
+      font-size: 0.95rem;
+      line-height: 1.8;
+      margin-bottom: 1rem;
+    }
+
+    /* DIALOGUE */
+    .dialogue {
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
+      margin-top: 1rem;
+    }
+
+    .line {
+      display: flex;
+      flex-direction: column;
+      gap: 0.2rem;
+    }
+
+    .speaker {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--light-blue);
+    }
+
+    .speech {
+      background: rgba(26,108,245,0.06);
+      border-right: 3px solid var(--blue);
+      border-radius: 0 0.5rem 0.5rem 0;
+      padding: 0.7rem 1rem;
+      color: var(--text);
+      font-size: 0.95rem;
+      line-height: 1.7;
+    }
+
+    .narration {
+      color: var(--muted);
+      font-size: 0.9rem;
+      font-style: italic;
+      padding: 0.5rem 0;
+      border-bottom: 1px dashed var(--border);
+    }
+
+    /* HINT BOX */
+    .hint-box {
+      background: rgba(245,180,26,0.05);
+      border: 1px solid rgba(245,180,26,0.2);
+      border-radius: 0.8rem;
+      padding: 1rem 1.5rem;
+      margin-top: 1rem;
+    }
+
+    .hint-box-title {
+      font-size: 0.8rem;
+      color: #f5b41a;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      display: block;
+    }
+
+    .hint-box p {
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    /* END CARD */
+    .end-card {
+      background: linear-gradient(135deg, var(--dark-blue), #080818);
+      border: 1px solid var(--border);
+      border-radius: 1rem;
+      padding: 2rem;
+      text-align: center;
+      margin-top: 2rem;
+    }
+
+    .end-card h3 {
+      color: #fff;
+      font-size: 1.1rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .end-card p {
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    .next-btn {
+      display: inline-block;
+      margin-top: 1rem;
+      padding: 0.7rem 2rem;
+      background: var(--blue);
+      color: #fff;
+      border-radius: 0.5rem;
+      font-family: 'Cairo', sans-serif;
+      font-weight: 700;
+      cursor: pointer;
+      border: none;
+      font-size: 0.95rem;
+      transition: all 0.3s;
+    }
+
+    .next-btn:hover {
+      background: var(--dark-blue);
+      transform: translateY(-2px);
+    }
+
+    /* HOME */
+    .home-section { display: block; }
+    .home-section.hidden { display: none; }
+
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 2rem;
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.85rem;
+    }
+
+    footer span { color: var(--light-blue); }
+
+    @media (max-width: 600px) {
+      .episodes-grid { grid-template-columns: 1fr; }
+      .stats { gap: 1.5rem; }
+      .nav-links { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav>
+  <div class="nav-logo" onclick="goHome()" style="cursor:pointer">AoI ⚔</div>
+  <ul class="nav-links">
+    <li><a href="#" onclick="goHome()">الرئيسية</a></li>
+  </ul>
+</nav>
+
+<!-- HOME -->
+<div class="home-section" id="home">
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-tag">الموسم الأول</div>
+    <h1>Attack on <span>the Infected</span></h1>
+    <p>اقرأ جميع حلقات الموسم الأول كاملة مع كل المشاهد والحوارات</p>
+  </div>
+
+  <!-- STATS -->
+  <div class="stats">
+    <div class="stat-item">
+      <span class="num" id="done-count">11</span>
+      <span class="lbl">حلقة مكتوبة</span>
+    </div>
+    <div class="stat-item">
+      <span class="num">20</span>
+      <span class="lbl">حلقة مخططة</span>
+    </div>
+    <div class="stat-item">
+      <span class="num">2</span>
+      <span class="lbl">أرك</span>
+    </div>
+    <div class="stat-item">
+      <span class="num">9</span>
+      <span class="lbl">حلقة متبقية</span>
+    </div>
+  </div>
+
+  <!-- FILTER -->
+  <div class="filter-section">
+    <span class="filter-title">الحلقات</span>
+    <div class="filter-buttons">
+      <button class="filter-btn active" onclick="filterEpisodes('all',this)">الكل</button>
+      <button class="filter-btn" onclick="filterEpisodes('NULL',this)">أرك NULL</button>
+      <button class="filter-btn" onclick="filterEpisodes('ECHO',this)">أرك ECHO</button>
+    </div>
+  </div>
+
+  <!-- EPISODES GRID -->
+  <div class="episodes-grid" id="episodes-grid"></div>
+
+</div>
+
+<!-- EPISODE PAGES — أضف حلقاتك هنا -->
+<!-- ضع هذا الكود بدلاً من محتوى ep-1 -->
+
+<div class="episode-page" id="ep-1">
+  <button class="back-btn" onclick="goHome()">→ العودة للقائمة</button>
+
+  <!-- رأس الحلقة -->
+  <div class="ep-hero">
+    <span class="ep-arc-badge">أرك NULL</span>
+    <span class="ep-num">الحلقة الأولى</span>
+    <div class="ep-title">الكود المكسور</div>
+    <div class="ep-tags">
+      <span class="tag">رين</span>
+      <span class="tag">كاغوري</span>
+      <span class="tag">شينجي</span>
+      <span class="tag">NEXUS</span>
+      <span class="tag">فيروس</span>
+    </div>
+  </div>
+
+  <!-- المشهد الأول -->
+  <div class="scene">
+    <div class="scene-header">
+      <span class="scene-num">المشهد 01</span>
+      <span class="scene-title">الشوارع قبل الإطلاق</span>
+    </div>
+    <div class="scene-body">
+      <span class="scene-location">📍 شوارع طوكيو — نهار / شقة رين — صباح</span>
+      <p class="scene-desc">
+        الكاميرا تتحرك ببطء فوق شوارع طوكيو المزدحمة.
+        اللافتات الإعلانية الضخمة تملأ كل مكان، وعليها شعار اللعبة ويوم إطلاقها.
+        الناس في كل مكان يتحدثون بحماس.
+      </p>
+      <p class="scene-desc">
+        رين أوزوماكي جالس أمام شاشته، وجهه مضاء بضوء الشاشة.
+        أصابعه تتحرك بسرعة على لوحة المفاتيح.
+      </p>
+      <div class="dialogue">
+        <div class="line">
+          <span class="speaker">رين — في نفسه</span>
+          <div class="speech">اليوم أخيراً... التحديث الذي انتظره الجميع.</div>
+        </div>
+      </div>
+      <p class="scene-desc" style="margin-top:1rem">
+        فجأة تتوقف أصابعه.
+        كود غريب يظهر بين الأكواد الرسمية للشركة.
+        رين يقترب من الشاشة، عيناه تضيقان.
+      </p>
+      <div class="dialogue">
+        <div class="line">
+          <span class="speaker">رين — بهدوء، لكن بنبرة متوترة</span>
+          <div class="speech">هذا... هذا ليس أسلوب الشركة.</div>
+        </div>
+      </div>
+      <p class="scene-desc" style="margin-top:1rem">
+        يبدأ في تحليل الكود بدقة. كل سطر يقرأه يجعل تعابير وجهه أكثر جدية.
+      </p>
+      <div class="dialogue">
+        <div class="line">
+          <span class="speaker">رين</span>
+          <div class="speech">بنية الكود... هذا أسلوبه.</div>
+        </div>
+      </div>
+      <p class="narration">لحظة صمت طويلة.</p>
+      <div class="dialogue">
+        <div class="line">
+          <span class="speaker">رين — همساً</span>
+          <div class="speech">شينجي...</div>
+        </div>
+      </div>
+      <p class="scene-desc" style="margin-top:1rem">
+        يتوقف. يحدق في الشاشة طويلاً. ثم ببطء يغلق نافذة الكود.
+      </p>
+      <div class="dialogue">
+        <div class="line">
+          <span class="speaker">رين — في نفسه</span>
+          <div class="speech">لا... ربما أنا مخطئ.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- المشهد الثاني -->
+  <div class="scene">
+    <div class="scene-header">
+      <span class="scene-num">المشهد 02</span>
+      <span class="scene-title">لحظة الإطلاق</span>
+    </div>
+    <div class="scene-body">
+      <span class="scene-location">📍 شوارع طوكيو — ليل / شقة رين</span>
+      <p class="scene-desc">
+        الشوارع شبه خالية. الجميع في بيوتهم ينتظر لحظة الإطلاق.
+        الساعة تقترب من منتصف الليل.
+      </p>
+      <p class="scene-desc">
+        رين يضع نظارة الواقع الافتراضي على رأسه.
+        نفس عميق. ثم يضغط على زر التشغيل.
+      </p>
+      <div class="dialogue">
+        <div class="line">
+          <span class="speaker">صوت اللعبة — آلي</span>
+          <div class="speech">مرحباً بك في عالم NEXUS.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- المشهد الثالث -->
+  <div class="scene">
+    <div class="scene-header">
+      <span class="scene-num">المشهد 03</span>
+      <span class="scene-title">داخل اللعبة</span>
+    </div>
+    <div class="scene-body">
+      <span class="scene-location">📍 ميدان المدينة الافتراضية — ليل</span>
+      <p class="scene-desc">
+        رين يفتح عينيه ببطء.
+        يمد يده. ينظر حوله.
+      </p>
+      <div class="dialogue">
+        <div class="line">
+          <span class="speaker">رين — مصدوم</span>
+          <div class="speech">هذا... هذا لا يبدو كلعبة.</div>
+        </div>
+      </div>
+      <p class="scene-desc" style="margin-top:1rem">
+        كل شيء حقيقي تماماً. الهواء، الأصوات، الروائح.
+        الناس من حوله بنفس الدهشة، يلمسون كل شيء ويضحكون من الإحساس الواقعي.
+      </p>
+    </div>
+  </div>
+
+  <!-- المشهد الرابع -->
+  <div class="scene">
+    <div class="scene-header">
+      <span class="scene-num">المشهد 04</span>
+      <span class="scene-title">اللحظة التي تغير فيها كل شيء</span>
+    </div>
+    <div class="scene-body">
+      <span class="scene-location">📍 الميدان المركزي — داخل اللعبة</span>
+      <p class="scene-desc">
+        فجأة، بدون أي تحذير، تتحول السماء.
+        اللون الأزرق يتلاشى ليحل محله أحمر قاتم.
+        تشققات سوداء تظهر في قبة السماء كأن الواقع نفسه يتكسر.
+        صوت ضخم يملأ كل شيء.
+        الناس يتوقفون. الابتسامات تختفي.
+      </p>
+      <div class="dialogue">
+        <div class="line">
+          <span class="speaker">صوت شينجي — بارد، هادئ، لا يحمل أي مشاعر</span>
+          <div class="speech">إلى كل مستخدم في هذه اللعبة...</div>
+        </div>
+      </div>
+      <p class="narration">رين يتجمد مكانه. يعرف هذا الصوت.</p>
+      <div class="dialogue">
+        <div class="line">
+          <span class="speaker">صوت شينجي</span>
+          <div class="speech">تم منع نظام تسجيل الخروج بشكل نهائي.</div>
+        </div>
+      </div>
+      <p class="narration">ضجة وصراخ بين الناس.</p>
+      <div class="dialogue">
+        <div class="line">
+          <span class="speaker">صوت شينجي</span>
+          <div class="speech">أجسادكم في العالم الحقيقي مرتبطة الآن بأجسادكم هنا. من يموت داخل هذه اللعبة... يموت في الواقع.</div>
+        </div>
+      </div>
+      <p class="narration">صمت مطبق لثوانٍ. ثم الجحيم.</p>
+      <p class="scene-desc">
+        رين يحدق في السماء المتشققة.
+        وجهه لا يعبر عن خوف. بل عن شيء أعمق.
+      </p>
+      <div class="dialogue">
+        <div class="line">
+          <span class="speaker">رين — همساً</span>
+          <div class="speech">شينجي... أنت...</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- المشهد الخامس -->
+  <div class="scene">
+    <div class="scene-header">
+      <span class="scene-num">المشهد 05</span>
+      <span class="scene-title">ظهور الفيروسات</span>
+    </div>
+    <div class="scene-body">
+      <span class="scene-location">📍 شوارع المدينة الافتراضية</span>
+      <p class="scene-desc">
+        الناس يجرون في كل اتجاه.
+        من بين الجموع الهاربة تظهر أشكال غريبة.
+        تبدو كبشر في الظاهر، لكن حركتها مختلفة. أعينها فارغة تماماً.
+      </p>
+      <div class="dialogue">
+        <div class="line">
+          <span class="speaker">مواطن عشوائي — يصرخ</span>
+          <div class="speech">ما هذه الأشياء؟!</div>
+        </div>
+      </div>
+      <p class="scene-desc" style="margin-top:1rem">
+        أحد الفيروسات يلمس شخصاً.
+        الشخص يتلاشى ببطء كأنه يُمحى من الوجود.
+        الناس الذين لديهم قدرات يبدأون في الظهور.
+        بعضهم يطير. بعضهم يفتح بوابات. بعضهم يختفي.
+        يفرون بسهولة.
+        لكن من لا يملك قدرات... يبقى عالقاً.
+      </p>
+      <p class="scene-desc">
+        رين ينظر حوله. الفوضى في كل مكان.
+        يحاول تفعيل أي شيء في نفسه. يركز. يضغط. لا شيء.
+      </p>
+      <div class="dialogue">
+        <div class="line">
+          <span class="speaker">رين — في نفسه</span>
+          <div class="speech">لماذا؟ ما قدرتي؟ يجب أن تكون لديّ قدرة...</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- المشهد السادس -->
+  <div class="scene">
+    <div class="scene-header">
+      <span class="scene-num">المشهد 06</span>
+      <span class="scene-title">الزقاق الضيق</span>
+    </div>
+    <div class="scene-body">
+      <span class="scene-location">📍 زقاق جانبي مظلم — داخل اللعبة</span>
+      <p class="scene-desc">
+        رين يركض بعيداً عن الشوارع الرئيسية.
+        يدخل زقاقاً ضيقاً هادئاً. يتوقف. يتكئ على الجدار.
+        أنفاسه متسارعة.
+        نظره يقع على شيء في نهاية الزقاق.
+        تمثال حجري لفتاة جميلة. في يدها سيف ساموراي.
+        وجهها هادئ. تعبيرها غريب لتمثال جامد.
+        رين ينظر إليه لثانية ثم يتجاهله ويجلس على الأرض.
+      </p>
+      <div class="dialogue">
+        <div class="line">
+          <span class="speaker">رين — في نفسه</span>
+          <div class="speech">فكر يا رين. أنت مبرمج. قدرتك يجب أن تتعلق بالبرمجة.</div>
+        </div>
+      </div>
+      <p class="scene-desc" style="margin-top:1rem">
+        يحاول مرة أخرى. يركز على يديه. يتخيل كوداً.
+        شيء ما يتحرك في أطراف أصابعه.
+        فجأة يسمع أصواتاً من مدخل الزقاق.
+        يتجمد.
+        فيروسان يشبهان توأمين يسيران معاً في نهاية الزقاق.
+        لم يلحظاه بعد.
+        لكنهما يتجهان ببطء نحوه.
+      </p>
+    </div>
+  </div>
+
+  <!-- المشهد السابع -->
+  <div class="scene">
+    <div class="scene-header">
+      <span class="scene-num">المشهد 07</span>
+      <span class="scene-title">ميلاد كاغوري</span>
+    </div>
+    <div class="scene-body">
+      <span class="scene-location">📍 الزقاق — داخل اللعبة</span>
+      <p class="scene-desc">
+        رين يرى الفيروسين يقتربان.
+        قلبه يدق بسرعة. يركز بقوة.
+      </p>
+      <div class="dialogue">
+        <div class="line">
+          <span class="speaker">رين — في نفسه</span>
+          <div class="speech">الآن! أطلق شيئاً... أي شيء!</div>
+        </div>
+      </div>
+      <p class="scene-desc" style="margin-top:1rem">
+        شيء ما يخرج من يده بالخطأ.
+        ليس ما أراده. كود غير مسيطر عليه يتجه مباشرة نحو التمثال.
+        الكود يصطدم بالتمثال الحجري.
+        لحظة صمت.
+        ثم الحجر يتكسر من الداخل.
+        تشققات ضوئية تظهر على سطحه.
+        الفتاة في التمثال تحرك يدها ببطء. ثم رأسها. ثم تفتح عينيها.
+        عيناها لونهما مختلف. غريب. جميل.
+        تنظر إلى رين مباشرة.
+        ثم تقفز بخفة من قاعدة التمثال وتقف أمامه.
+        أمسكت بمقبض السيف الساموراي.
+      </p>
+      <div class="dialogue">
+        <div class="line">
+          <span class="speaker">كاغوري — بصوت هادئ ودافئ، كأنها تقول أمراً بديهياً</span>
+          <div class="speech">نجح بروتوكول الارتباط.</div>
+        </div>
+      </div>
+      <p class="narration">تنظر إليه بعيون مشرقة.</p>
+      <div class="dialogue">
+        <div class="line">
+          <span class="speaker">كاغوري</span>
+          <div class="speech">أنا الآن جزء منك... يا رين أوزوماكي.</div>
+        </div>
+      </div>
+      <p class="narration">رين يحدق فيها. مفتوح الفم.</p>
+      <div class="dialogue">
+        <div class="line">
+          <span class="speaker">رين</span>
+          <div class="speech">من... من أنتِ؟</div>
+        </div>
+      </div>
+      <p class="narration">كاغوري تبتسم. وتنظر نحو الفيروسين اللذين اقتربا الآن.</p>
+      <div class="dialogue">
+        <div class="line">
+          <span class="speaker">كاغوري — بهدوء تام</span>
+          <div class="speech">سؤال يمكن تأجيله. هؤلاء لا يمكن تأجيلهم.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- المشهد الثامن -->
+  <div class="scene">
+    <div class="scene-header">
+      <span class="scene-num">المشهد 08</span>
+      <span class="scene-title">المعركة الأولى</span>
+    </div>
+    <div class="scene-body">
+      <span class="scene-location">📍 الزقاق — داخل اللعبة</span>
+      <p class="scene-desc">
+        الفيروسان التوأمان يتجهان نحو رين وكاغوري.
+        كاغوري تخطو خطوة للأمام وتسحب السيف الساموراي ببطء.
+      </p>
+      <div class="dialogue">
+        <div class="line">
+          <span class="speaker">رين</span>
+          <div class="speech">كيف أقاتل هذه الأشياء؟</div>
+        </div>
+        <div class="line">
+          <span class="speaker">كاغوري</span>
+          <div class="speech">كل فيروس لديه ثغرة داخله. افتح الثغرة... وأنا أتكفل بالباقي.</div>
+        </div>
+      </div>
+      <p class="scene-desc" style="margin-top:1rem">
+        رين ينظر بتركيز إلى الفيروس.
+        شيء في عينه يتغير.
+        خطوط من الكود تبدأ في الظهور فوق جسد الفيروس الأول.
+        كأنه يرى ما لا يراه أحد غيره.
+        يجد الثغرة.
+        يركز قدرته فيها.
+      </p>
+      <div class="dialogue">
+        <div class="line">
+          <span class="speaker">رين</span>
+          <div class="speech">الآن!</div>
+        </div>
+      </div>
+      <p class="narration">كاغوري تنطلق كالبرق. ضربة واحدة بالسيف في المكان الذي أشار إليه رين. الفيروس الأول يتفكك ويختفي.</p>
+      <p class="scene-desc" style="margin-top:1rem">
+        الفيروس الثاني يهاجم بسرعة أكبر.
+        رين يركز. يبحث عن الثغرة بسرعة.
+        يجدها.
+      </p>
+      <div class="dialogue">
+        <div class="line">
+          <span class="speaker">رين</span>
+          <div class="speech">ثانية — يساره!</div>
+        </div>
+      </div>
+      <p class="narration">كاغوري بدون تردد. تدور وتضرب. الفيروس الثاني يتفكك. صمت.</p>
+      <p class="scene-desc" style="margin-top:1rem">
+        أنفاس رين المتسارعة هي الصوت الوحيد في الزقاق.
+        كاغوري تعود إلى وضعها الهادئ وتضع السيف في غمده.
+        ثم تنظر إليه وتبتسم.
+      </p>
+      <div class="dialogue">
+        <div class="line">
+          <span class="speaker">كاغوري</span>
+          <div class="speech">ليس سيئاً... للمرة الأولى.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- نهاية الحلقة -->
+  <div class="scene">
+    <div class="scene-header">
+      <span class="scene-num">نهاية الحلقة</span>
+      <span class="scene-title">الزقاق تحت السماء الحمراء</span>
+    </div>
+    <div class="scene-body">
+      <span class="scene-location">📍 الزقاق — السماء الحمراء المتشققة فوقهم</span>
+      <p class="scene-desc">
+        رين يجلس مستنداً إلى الجدار.
+        كاغوري تقف بجانبه.
+        كلاهما ينظران إلى السماء الحمراء المتشققة فوقهم.
+      </p>
+      <div class="dialogue">
+        <div class="line">
+          <span class="speaker">رين — بنبرة هادئة لكن ثقيلة</span>
+          <div class="speech">شينجي... لماذا؟</div>
+        </div>
+      </div>
+      <p class="narration">كاغوري تنظر إليه، لكنها لا تسأل. تعرف أن هذا السؤال ليس موجهاً لها.</p>
+      <p class="scene-desc" style="margin-top:1rem">
+        مشهد خارجي — شوارع طوكيو الحقيقية — ليل.
+        شوارع طوكيو الحقيقية فارغة تماماً.
+        ملايين الأجساد في بيوتهم. جامدة. مرتبطة بعالم آخر.
+      </p>
+
+      <div class="hint-box" style="margin-top:1.5rem">
+        <span class="hint-box-title">⚠️ تلميح غامض</span>
+        <p>في عالم يمكن فيه للكود أن يقتل... من رسم القواعد؟</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- بطاقة النهاية -->
+  <div class="end-card">
+    <h3>— نهاية الحلقة الأولى —</h3>
+    <p>الكود المكسور كان البداية. ما الذي ينتظر رين في الحلقة القادمة؟</p>
+    <button class="next-btn" onclick="openEpisode(2)">الحلقة الثانية ←</button>
+  </div>
+
+</div>
+
+<!-- ضع هذا الكود بدلاً من محتوى ep-2 -->
+
+<div class="episode-page" id="ep-2">
+  <button class="back-btn" onclick="goHome()">→ العودة للقائمة</button>
+
+  <!-- رأس الحلقة -->
+  <div class="ep-hero">
+    <span class="ep-arc-badge">أرك NULL</span>
+    <span class="ep-num">الحلقة الثانية</span>
+    <div class="ep-title">فيلق الإبادة</div>
+    <div class="ep-tags">
+      <span class="tag">رين</span>
+      <span class="tag">كاغوري</span>
+      <span class="tag">آكيرا</span>
+      <span class="tag">ميسا</span>
+      <span class="tag">يوري</span>
+      <span class="tag">سوهو</span>
+      <span class="tag">كايتو</span>
+      <span class="tag">شينجي</span>
+    </div>
+  </div>
+
+  <!-- المشهد الأول -->
+  <div class="scene">
+    <div class="scene-header">
+      <span class="scene-num">المشهد 01</span>
+      <span class="scene-title">الصباح بعد الليلة الأولى</span>
+    </div>
+    <div class="scene-body">
+      <span class="scene-location">📍 الزقاق — داخل اللعبة — فجر</span>
+      <p class="scene-desc">
+        السماء لا تزال حمراء.
+        رين مستيقظ. لم ينم.
+        كاغوري جالسة بجانبه تراقبه بهدوء.
+        رين يحدق في يديه.
+      </p>
+      <div class="dialogue">
+        <div class="line">
+          <span class="speaker">رين — في نفسه</span>
+          <div class="speech">كم مضى؟ ساعات؟ أيام؟</div>
+        </div>
+      </div>
+      <p class="narration">يغمض عينيه.</p>
+    </div>
+  </div>
+
+  <!-- المشهد الثاني -->
+  <div class="scene">
+    <div class="scene-header">
+      <span class="scene-num">المشهد 02</span>
+      <span class="scene-title">الذكرى — العائلة</span>
+    </div>
+    <div class="scene-body">
+      <span class="scene-location">📍 شقة رين الحقيقية — ذكرى قبل دخول اللعبة</span>
+      <p class="scene-desc">
+        الصورة ضبابية في البداية ثم تتضح.
+        غرفة دافئة. مطبخ صغير.
+        امرأة في الأربعينات تضع طبق طعام على الطاولة.
+      </p>
+      <div class="dialogue">
+        <div class="line">
+          <span class="speaker">أم رين — بصوت دافئ</span>
+          <div class="speech">رين! الأكل جاهز، اترك الكمبيوتر.</div>
+        </div>
+      </div>
+      <p class="scene-desc" style="margin-top:1rem">
+        رين الصغير يركض من غرفته ويجلس على الكرسي.
+        رجل في الخمسينات يجلس أمامه، يبتسم ويطوي جريدته.
+      </p>
+      <div class="dialogue">
+        <div class="line">
+          <span class="speaker">أب رين</span>
+          <div class="speech">اليوم فقط؟ أم ستنسانا من أجل اللعبة الجديدة أيضاً غداً؟</div>
+        </div>
+        <div class="line">
+          <span class="speaker">رين — يضحك</span>
+          <div class="speech">فقط هذه المرة، أعدكم!</div>
+        </div>
+      </div>
+      <p class="narration">الجميع يضحك. الصورة تتلاشى.</p>
+    </div>
+  </div>
+
+  <!-- المشهد الثالث -->
+  <div class="scene">
+    <div class="scene-header">
+      <span class="scene-num">المشهد 03</span>
+      <span class="scene-title">العودة للحاضر — الوعد</span>
+    </div>
+    <div class="scene-body">
+      <span class="scene-location">📍 الزقاق — داخل اللعبة</span>
+      <p class="narration">رين يفتح عينيه فجأة.</p>
+      <div class="dialogue">
+        <div class="line">
+          <span class="speaker">رين — بصوت منخفض لكن حازم</span>
+          <div class="speech">أنا سأرجع.</div>
+        </div>
+        <div class="line">
+          <span class="speaker">كاغوري</span>
+          <div class="speech">إلى من؟</div>
+        </div>
+        <div class="line">
+          <span class="speaker">رين</span>
+          <div class="speech">أهلي... ينتظرونني هناك. جسدي في الواقع، وهم بجانبه الآن على الأرجح، لا يعرفون ماذا يفعلون.</div>
+        </div>
+      </div>
+      <p class="narration">يقف ويمسح ملابسه.</p>
+      <div class="dialogue">
+        <div class="line">
+          <span class="speaker">رين</span>
+          <div class="speech">لهذا لن أموت هنا. مهما حدث.</div>
+        </div>
+      </div>
+      <p class="narration">كاغوري تنظر إليه بعيون تعكس شيئاً يشبه الإعجاب.</p>
+      <div class="dialogue">
+        <div class="line">
+          <span class="speaker">كاغوري — بهدوء</span>
+          <div class="speech">فهمت.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- المشهد الرابع -->
+  <div class="scene">
+    <div class="scene-header">
+      <span class="scene-num">المشهد 04</span>
+      <span class="scene-title">الشوارع الخطرة</span>
+    </div>
+    <div class="scene-body">
+      <span class="scene-location">📍 شوارع المدينة الافتراضية — نهار</span>
+      <p class="scene-desc">
+        رين وكاغوري يتحركان بحذر بين الأزقة.
+        الشوارع الرئيسية خطرة — الفيروسات تجوب في كل مكان.
+      </p>
+      <div class="dialogue">
+        <div class="line">
+          <span class="speaker">رين</span>
+          <div class="speech">يجب أن نجد مكاناً آمناً. لا يمكننا البقاء في الزقاق إلى الأبد.</div>
+        </div>
+        <div class="line">
+          <span class="speaker">كاغوري</span>
+          <div class="speech">أرصد حركة فيروسين على بعد مئتي متر. اتجاه الشمال محفوف بالخطر.</div>
+        </div>
+        <div class="line">
+          <span class="speaker">رين</span>
+          <div class="speech">إذن نتجه جنوباً.</div>
+        </div>
+      </div>
+      <p class="narration">فجأة يسمعان أصواتاً — صراخ بشري قادم من مبنى قريب. رين يتوقف.</p>
+      <div class="dialogue">
+        <div class="line">
+          <span class="speaker">رين</span>
+          <div class="speech">هناك ناس محاصرون.</div>
+        </div>
+        <div class="line">
+          <span class="speaker">كاغوري</span>
+          <div class="speech">إذا تحركنا نحوهم نعرض أنفسنا للخطر.</div>
+        </div>
+        <div class="line">
+          <span class="speaker">رين — يمشي بالفعل</span>
+          <div class="speech">أعرف.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- المشهد الخامس -->
+  <div class="scene">
+    <div class="scene-header">
+      <span class="scene-num">المشهد 05</span>
+      <span class="scene-title">الانقضاض من الأعلى</span>
+    </div>
+    <div class="scene-body">
+      <span class="scene-location">📍 ساحة أمام مبنى تجاري</span>
+      <p class="scene-desc">
+        رين وكاغوري يصلان إلى حافة ساحة واسعة.
+        يختبئان خلف جدار ويطلان بحذر.
+        في منتصف الساحة: مجموعة من عشرين شخصاً محاصرون.
+        حولهم أكثر من عشرة فيروسات تضيق الخناق عليهم.
+        الناس يتراصون ببعض، بعضهم يبكي، بعضهم جامد من الخوف.
+      </p>
+      <div class="dialogue">
+        <div class="line">
+          <span class="speaker">رين — يحسب الأعداد في رأسه</span>
+          <div class="speech">عشرة فيروسات على الأقل... هذا كثير.</div>
+        </div>
+        <div class="line">
+          <span class="speaker">كاغوري</span>
+          <div class="speech">قدراتك لم تنضج بعد. هذا انتحار.</div>
+        </div>
+      </div>
+      <p class="narration">رين يعض شفته. يعرف أنها محقة لكنه لا يستطيع التراجع. فجأة...</p>
+      <p class="scene-desc">
+        شيء ينقض من الأعلى.
+        ظل سريع يهبط من سقف المبنى المجاور.
+        ثم ظل آخر. وآخر. وآخر. وخامس.
+        خمسة أشخاص يهبطون في وسط الساحة بين الفيروسات والمحاصرين.
+        رين يتجمد وهو يشاهد.
+      </p>
+    </div>
+  </div>
+
+  <!-- المشهد السادس -->
+  <div class="scene">
+    <div class="scene-header">
+      <span class="scene-num">المشهد 06</span>
+      <span class="scene-title">فيلق الإبادة في العمل</span>
+    </div>
+    <div class="scene-body">
+      <span class="scene-location">📍 الساحة — داخل اللعبة</span>
+      <p class="scene-desc">
+        الشخص الأول — آكيرا — يقف في المنتصف بهدوء تام.
+        لا يتحرك. فقط يرفع يده ببطء.
+        الفيروسات تنجذب نحوه قسراً كأن شيئاً يسحبها.
+        تتجمع كلها في دائرة حوله.
+      </p>
+      <div class="dialogue">
+        <div class="line">
+          <span class="speaker">آكيرا — بصوت بارد</span>
+          <div class="speech">ميسا.</div>
+        </div>
+      </div>
+      <p class="scene-desc" style="margin-top:1rem">
+        ميسا تختفي.
+        في أجزاء من الثانية تظهر خلف فيروس، تضربه، تختفي، تظهر خلف آخر.
+        واحد تلو الآخر يتفككون.
+        لكن ثلاثة فيروسات تفلت من دائرة آكيرا وتندفع نحو المحاصرين.
+      </p>
+      <div class="dialogue">
+        <div class="line">
+          <span class="speaker">آكيرا</span>
+          <div class="speech">كايتو.</div>
+        </div>
+      </div>
+      <p class="scene-desc" style="margin-top:1rem">
+        كايتو يخطو للأمام.
+        جسده يتحول إلى معدن لامع.
+        يقف أمام الفيروسات الثلاثة كجدار بشري.
+        تضربه مراراً. لا تأثير.
+      </p>
+      <div class="dialogue">
+        <div class="line">
+          <span class="speaker">كايتو — بصوت أجش هادئ</span>
+          <div class="speech">يوري.</div>
+        </div>
+      </div>
+      <p class="scene-desc" style="margin-top:1rem">
+        يوري ترفع يدها بابتسامة.
+        الفيروسات فجأة تتوقف — ترى أوهاماً تربكها تماماً.
+        تدور في نفسها لا تعرف أين تتجه.
+        سوهو — الأصغر في المجموعة — ينقض عليها واحداً واحداً.
+        قدرته نسخت من كايتو — جسده معدن مؤقتاً.
+        يضرب الفيروسات بقبضات معدنية.
+        في أقل من دقيقتين... الساحة صافية.
+        المحاصرون ينظرون بذهول.
+      </p>
+      <p class="narration">رين خلف الجدار لا يتحرك. فمه مفتوح.</p>
+      <div class="dialogue">
+        <div class="line">
+          <span class="speaker">رين — همس</span>
+          <div class="speech">من... من هؤلاء؟</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- المشهد السابع -->
+  <div class="scene">
+    <div class="scene-header">
+      <span class="scene-num">المشهد 07</span>
+      <span class="scene-title">اللقاء الأول — الانضمام</span>
+    </div>
+    <div class="scene-body">
+      <span class="scene-location">📍 الساحة — داخل اللعبة</span>
+      <div class="dialogue">
+        <div class="line">
+          <span class="speaker">آكيرا</span>
+          <div class="speech">فيلق الإبادة. نحن هنا لإرشادكم إلى المنطقة الآمنة.</div>
+        </div>
+      </div>
+      <p class="narration">ثم يتوقف فجأة. يلتفت نحو الجدار الذي يختبئ خلفه رين.</p>
+      <div class="dialogue">
+        <div class="line">
+          <span class="speaker">آكيرا — بنبرة فاترة</span>
+          <div class="speech">اخرج.</div>
+        </div>
+      </div>
+      <p class="narration">رين يتصلب. ينظر إلى كاغوري. كاغوري تهز كتفيها بهدوء. رين يخرج ببطء من خلف الجدار.</p>
+      <div class="dialogue">
+        <div class="line">
+          <span class="speaker">سوهو — بعيون مشتعلة بالفضول</span>
+          <div class="speech">هيي! ما قدرتك؟</div>
+        </div>
+        <div class="line">
+          <span class="speaker">ميسا — تنظر إليه وإلى كاغوري</span>
+          <div class="speech">ومن هي هذه؟</div>
+        </div>
+        <div class="line">
+          <span class="speaker">كاغوري — بهدوء دافئ</span>
+          <div class="speech">كاغوري. حارسة رين.</div>
+        </div>
+        <div class="line">
+          <span class="speaker">ميسا</span>
+          <div class="speech">حارسة؟ يا إلهي، هذا المسكين يحتاج حارسة؟</div>
+        </div>
+        <div class="line">
+          <span class="speaker">رين — بنبرة جافة</span>
+          <div class="speech">شكراً على ما فعلتموه.</div>
+        </div>
+      </div>
+      <p class="narration">آكيرا يدرس رين بنظرة ثاقبة. لا يتكلم.</p>
+      <div class="dialogue">
+        <div class="line">
+          <span class="speaker">يوري — بابتسامتها الدائمة</span>
+          <div class="speech">اسمك؟</div>
+        </div>
+        <div class="line">
+          <span class="speaker">رين</span>
+          <div class="speech">رين أوزوماكي.</div>
+        </div>
+        <div class="line">
+          <span class="speaker">يوري</span>
+          <div class="speech">وقدرتك؟</div>
+        </div>
+        <div class="line">
+          <span class="speaker">رين</span>
+          <div class="speech">الاختراق. أفتح ثغرات في الفيروسات.</div>
+        </div>
+      </div>
+      <p class="narration">صمت قصير. آكيرا يتكلم أخيراً.</p>
+      <div class="dialogue">
+        <div class="line">
+          <span class="speaker">آكيرا</span>
+          <div class="speech">هل تريد الانضمام إلى الفيلق؟</div>
+        </div>
+        <div class="line">
+          <span class="speaker">ميسا — مندهشة</span>
+          <div class="speech">آكيرا؟! هكذا مباشرة؟</div>
+        </div>
+        <div class="line">
+          <span class="speaker">آكيرا</span>
+          <div class="speech">قدرة تكشف ثغرات الفيروسات... نادرة.</div>
+        </div>
+      </div>
+      <p class="narration">رين ينظر إليه. يفكر في أهله. في وعده لنفسه.</p>
+      <div class="dialogue">
+        <div class="line">
+          <span class="speaker">رين</span>
+          <div class="speech">ما هدف الفيلق؟</div>
+        </div>
+        <div class="line">
+          <span class="speaker">آكيرا</span>
+          <div class="speech">إنقاذ من لا يستطيع الدفاع عن نفسه. وإيجاد طريقة للخروج من هذه اللعبة.</div>
+        </div>
+      </div>
+      <p class="narration">رين يتنفس ببطء.</p>
+      <div class="dialogue">
+        <div class="line">
+          <span class="speaker">رين</span>
+          <div class="speech">أنا معكم.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- نهاية الحلقة -->
+  <div class="scene">
+    <div class="scene-header">
+      <span class="scene-num">نهاية الحلقة</span>
+      <span class="scene-title">شينجي يراقب</span>
+    </div>
+    <div class="scene-body">
+      <span class="scene-location">📍 المنطقة الآمنة — غروب / مكان مجهول — ظلام</span>
+      <p class="scene-desc">
+        الفيلق يقود المحاصرين نحو مبنى محصن.
+        رين يسير في المؤخرة.
+        كاغوري بجانبه كالعادة.
+        سوهو يقترب منه فجأة.
+      </p>
+      <div class="dialogue">
+        <div class="line">
+          <span class="speaker">سوهو — بصوت منخفض متحمس</span>
+          <div class="speech">قدرة الاختراق من العين... رأيتها أثناء المعركة. مذهلة.</div>
+        </div>
+        <div class="line">
+          <span class="speaker">رين — ينظر إليه</span>
+          <div class="speech">كنت تراقب؟</div>
+        </div>
+        <div class="line">
+          <span class="speaker">سوهو — يضحك</span>
+          <div class="speech">دائماً أراقب.</div>
+        </div>
+      </div>
+      <p class="narration">رين يبتسم للمرة الأولى منذ دخل اللعبة. ابتسامة صغيرة، لكنها حقيقية.</p>
+      <p class="scene-desc" style="margin-top:1.5rem">
+        مشهد قصير — مكان مجهول داخل اللعبة — ظلام.
+        شخص جالس أمام شاشات لا تعد ولا تحصى.
+        كلها تعرض مواقع اللاعبين داخل اللعبة.
+        يده تتحرك. يكبر على شاشة واحدة.
+        شاشة تُظهر رين وهو يدخل المبنى مع الفيلق.
+        صمت.
+      </p>
+      <div class="dialogue">
+        <div class="line">
+          <span class="speaker">شينجي — بهدوء تام</span>
+          <div class="speech">وجدت مكانك أخيراً... رين.</div>
+        </div>
+      </div>
+
+      <div class="hint-box" style="margin-top:1.5rem">
+        <span class="hint-box-title">⚠️ تلميح غامض</span>
+        <p>الفيلق يقاتل للنجاة... لكن شينجي يراقب كل خطوة.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- بطاقة النهاية -->
+  <div class="end-card">
+    <h3>— نهاية الحلقة الثانية —</h3>
+    <p>رين انضم للفيلق. لكن شينجي يراقب. ماذا يخطط؟</p>
+    <button class="next-btn" onclick="openEpisode(3)">الحلقة الثالثة ←</button>
+  </div>
+
+</div>
+
+<div class="episode-page" id="ep-3">
+  <button class="back-btn" onclick="goHome()">→ العودة للقائمة</button>
+  <div style="text-align:center;padding:4rem;color:var(--muted)">
+    محتوى الحلقة الثالثة قيد الإضافة...
+  </div>
+</div>
+
+<div class="episode-page" id="ep-4">
+  <button class="back-btn" onclick="goHome()">→ العودة للقائمة</button>
+  <div style="text-align:center;padding:4rem;color:var(--muted)">
+    محتوى الحلقة الرابعة قيد الإضافة...
+  </div>
+</div>
+
+<div class="episode-page" id="ep-5">
+  <button class="back-btn" onclick="goHome()">→ العودة للقائمة</button>
+  <div style="text-align:center;padding:4rem;color:var(--muted)">
+    محتوى الحلقة الخامسة قيد الإضافة...
+  </div>
+</div>
+
+<div class="episode-page" id="ep-6">
+  <button class="back-btn" onclick="goHome()">→ العودة للقائمة</button>
+  <div style="text-align:center;padding:4rem;color:var(--muted)">
+    محتوى الحلقة السادسة قيد الإضافة...
+  </div>
+</div>
+
+<div class="episode-page" id="ep-7">
+  <button class="back-btn" onclick="goHome()">→ العودة للقائمة</button>
+  <div style="text-align:center;padding:4rem;color:var(--muted)">
+    محتوى الحلقة السابعة قيد الإضافة...
+  </div>
+</div>
+
+<div class="episode-page" id="ep-8">
+  <button class="back-btn" onclick="goHome()">→ العودة للقائمة</button>
+  <div style="text-align:center;padding:4rem;color:var(--muted)">
+    محتوى الحلقة الثامنة قيد الإضافة...
+  </div>
+</div>
+
+<div class="episode-page" id="ep-9">
+  <button class="back-btn" onclick="goHome()">→ العودة للقائمة</button>
+  <div style="text-align:center;padding:4rem;color:var(--muted)">
+    محتوى الحلقة التاسعة قيد الإضافة...
+  </div>
+</div>
+
+<div class="episode-page" id="ep-10">
+  <button class="back-btn" onclick="goHome()">→ العودة للقائمة</button>
+  <div style="text-align:center;padding:4rem;color:var(--muted)">
+    محتوى الحلقة العاشرة قيد الإضافة...
+  </div>
+</div>
+
+<div class="episode-page" id="ep-11">
+  <button class="back-btn" onclick="goHome()">→ العودة للقائمة</button>
+  <div style="text-align:center;padding:4rem;color:var(--muted)">
+    محتوى الحلقة الحادية عشرة قيد الإضافة...
+  </div>
+</div>
+
+<footer>
+  <p>© 2025 <span>Attack on the Infected</span> — جميع الحقوق محفوظة</p>
+</footer>
+
+<script>
+  // ===== بيانات الحلقات للكروت =====
+  const episodes = [
+    { num:1, title:"الكود المكسور", arc:"NULL", status:"done", summary:"يوم إطلاق NEXUS. شينجي يعلن حظر الخروج والموت الحقيقي. رين يهرب ويوقظ كاغوري بالخطأ.", tags:["رين","كاغوري","NEXUS","فيروس"] },
+    { num:2, title:"فيلق الإبادة", arc:"NULL", status:"done", summary:"رين يلتقي بفيلق الإبادة وينضم إليهم بعد إنقاذ مدنيين من الفيروسات.", tags:["الفيلق","آكيرا","ميسا","يوري","سوهو"] },
+    { num:3, title:"أول ليلة", arc:"NULL", status:"done", summary:"الليلة الأولى في المقر. مشاهد تعارف وتوتر. رين يحس بشيء يراقبه من الخارج.", tags:["رين","كاغوري","سوهو","NULL"] },
+    { num:4, title:"لا وجه له", arc:"NULL", status:"done", summary:"NULL يمحو هوية مدني. الفيلق يكتشف قدرة NULL على نسخ أي شخص.", tags:["NULL","رين","هوية","كود صفري"] },
+    { num:5, title:"الهوية الصفرية", arc:"NULL", status:"done", summary:"رين وكاغوري يطوران فكرة الكود الصفري. الفيلق يخطط لاستدراج NULL.", tags:["رين","كاغوري","كود صفري","يوري"] },
+    { num:6, title:"من أنت؟", arc:"NULL", status:"done", summary:"رين ينفذ خطة الكود الصفري. NULL يُهزم. رين يزرع المفتاح الأول في عينه.", tags:["NULL","رين","مفتاح","ECHO"] },
+    { num:7, title:"الأشباح التي لا تموت", arc:"ECHO", status:"done", summary:"رين يختبر قدرته الجديدة. يلتقي بهاروتو الذي يبحث عن صديقه أكيو المفقود.", tags:["رين","هاروتو","أكيو","ECHO"] },
+    { num:8, title:"الذاكرة كسلاح", arc:"ECHO", status:"done", summary:"الفيلق يتحرك لإنقاذ 300 لاعب في B7. ECHO تهاجم بجيش من الأشباح.", tags:["ECHO","B7","موريتا","ميسا"] },
+    { num:9, title:"قطع الخيط", arc:"ECHO", status:"done", summary:"معركة ضخمة ضد ECHO. رين يتردد أمام شبح شينجي. ECHO تنسحب.", tags:["ECHO","رين","كاغوري","شينجي"] },
+    { num:10, title:"ما تركته ECHO", arc:"ECHO", status:"done", summary:"ما بعد المعركة. يوري تنظر لقطعة الكود الغامضة. رين يرى كوداً يراقبه ويهرب.", tags:["ECHO","يوري","آكيرا","هاروتو"] },
+    { num:11, title:"من الداخل", arc:"ECHO", status:"done", summary:"رين يكتشف أن الكود الغامض هو كيجي ماتسودا — لاعع في منتصف التحول لفيروس.", tags:["كيجي","رين","ECHO","هاروتو"] }
+  ];
+
+  // ===== RENDER CARDS =====
+  function renderEpisodes(filter = 'all') {
+    const grid = document.getElementById('episodes-grid');
+    grid.innerHTML = '';
+
+    const filtered = filter === 'all' ? episodes : episodes.filter(e => e.arc === filter);
+
+    filtered.forEach(ep => {
+      const card = document.createElement('div');
+      card.className = 'episode-card';
+      card.onclick = () => openEpisode(ep.num);
+      card.innerHTML = `
+        <div class="card-header">
+          <span class="card-arc">${ep.arc}</span>
+          <span class="card-num">الحلقة ${ep.num}</span>
+          <div class="card-title">${ep.title}</div>
+        </div>
+        <div class="card-body">
+          <p class="card-summary">${ep.summary}</p>
+          <div class="card-tags">
+            ${ep.tags.map(t => `<span class="tag">${t}</span>`).join('')}
+          </div>
+          <div class="card-footer">
+            <span class="status status-done">مكتملة ✅</span>
+            <span class="read-btn">اقرأ الحلقة ←</span>
+          </div>
+        </div>
+      `;
+      grid.appendChild(card);
+    });
+  }
+
+  // ===== FILTER =====
+  function filterEpisodes(filter, btn) {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    renderEpisodes(filter);
+  }
+
+  // ===== NAVIGATION =====
+  function openEpisode(num) {
+    document.getElementById('home').classList.add('hidden');
+    document.querySelectorAll('.episode-page').forEach(p => p.classList.remove('active'));
+    const page = document.getElementById(`ep-${num}`);
+    if (page) {
+      page.classList.add('active');
+      window.scrollTo(0, 0);
+    }
+  }
+
+  function goHome() {
+    document.getElementById('home').classList.remove('hidden');
+    document.querySelectorAll('.episode-page').forEach(p => p.classList.remove('active'));
+    window.scrollTo(0, 0);
+  }
+
+  // ===== INIT =====
+  renderEpisodes();
+</script>
+
+</body>
+</html>
